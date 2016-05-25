@@ -1403,6 +1403,13 @@ static bt_status_t codec_config_src(
 static void cleanup(int service_uuid) {
   BTIF_TRACE_EVENT("%s", __func__);
 
+  if (btif_av_cb.sm_handle != NULL &&
+      btif_sm_get_state(btif_av_cb.sm_handle) == BTIF_AV_STATE_OPENING) {
+    BTIF_TRACE_DEBUG("Move from OPENING to IDLE due to BT ShutDown");
+    btif_sm_change_state(btif_av_cb.sm_handle, BTIF_AV_STATE_IDLE);
+    btif_queue_advance();
+  }
+
   btif_transfer_context(btif_av_handle_event, BTIF_AV_CLEANUP_REQ_EVT, NULL, 0,
                         NULL);
 
