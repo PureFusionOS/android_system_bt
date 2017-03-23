@@ -46,6 +46,7 @@ typedef enum {
  ******************************************************************************/
 
 void raise_priority_a2dp(tHIGH_PRIORITY_TASK high_task);
+
 bt_soc_type get_soc_type();
 
 #endif /* BT_UTILS_H */
