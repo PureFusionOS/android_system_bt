@@ -34,8 +34,6 @@
 #include "bt_utils.h"
 #include "bta_av_int.h"
 #include "btif/include/btif_av_co.h"
-#include "btif/include/btif_storage.h"
-#include "device/include/interop.h"
 #include "l2c_api.h"
 #include "l2cdefs.h"
 #include "osi/include/osi.h"
