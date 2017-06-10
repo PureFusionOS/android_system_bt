@@ -133,7 +133,6 @@ typedef struct {
   uint32_t scan_window;
   uint32_t scan_interval;
   uint8_t scan_type;             /* current scan type: active or passive */
-  uint8_t scan_duplicate_filter; /* duplicate filter enabled for scan */
   uint16_t adv_interval_min;
   uint16_t adv_interval_max;
   tBTM_BLE_AFP afp; /* advertising filter policy */
