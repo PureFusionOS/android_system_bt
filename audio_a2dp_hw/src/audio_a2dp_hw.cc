@@ -761,6 +761,11 @@ static void a2dp_stream_common_destroy(struct a2dp_stream_common* common) {
 static int start_audio_datapath(struct a2dp_stream_common* common) {
   INFO("state %d", common->state);
 
+  if (common->ctrl_fd == AUDIO_SKT_DISCONNECTED) {
+    INFO(" Audiopath ctrl path is not yet connected");
+    return -1;
+  }
+
   int oldstate = common->state;
   common->state = AUDIO_A2DP_STATE_STARTING;
 
