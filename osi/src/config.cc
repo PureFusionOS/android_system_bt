@@ -52,8 +52,6 @@ struct config_t {
 // Empty definition; this type is aliased to list_node_t.
 struct config_section_iter_t {};
 
-static bool config_parse(FILE* fp, config_t* config);
-
 static section_t* section_new(const char* name);
 static void section_free(void* ptr);
 static section_t* section_find(const config_t* config, const char* section);
@@ -424,7 +422,7 @@ static char* trim(char* str) {
   return str;
 }
 
-static bool config_parse(FILE* fp, config_t* config) {
+bool config_parse(FILE* fp, config_t* config) {
   CHECK(fp != NULL);
   CHECK(config != NULL);
 

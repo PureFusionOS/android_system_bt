@@ -17,6 +17,7 @@
 // - All strings are case sensitive.
 
 #include <stdbool.h>
+#include <stdio.h>
 
 // The default section name to use if a key/value pair is not defined within
 // a section.
@@ -36,6 +37,11 @@ config_t* config_new_empty(void);
 // longer required. |filename| must not be NULL and must point to a readable
 // file on the filesystem.
 config_t* config_new(const char* filename);
+
+// Parse the specified file and update the config accordingly. If the file
+// contains a |key| already existing in the config, it will be overriden.
+// Returns true if no error during the parsing, false otherwise.
+bool config_parse(FILE *fp, config_t *config);
 
 // Clones |src|, including all of it's sections, keys, and values.
 // Returns a new config which is a copy and separated from the original;

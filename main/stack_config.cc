@@ -24,6 +24,7 @@
 
 #include "osi/include/future.h"
 #include "osi/include/log.h"
+#include "osi/include/config.h"
 
 const char* TRACE_CONFIG_ENABLED_KEY = "TraceConf";
 const char* PTS_SECURE_ONLY_MODE = "PTS_SecurePairOnly";
@@ -43,6 +44,7 @@ static future_t* init() {
 #else  // !defined(OS_GENERIC)
   const char* path = "/etc/bluetooth/bt_stack.conf";
 #endif  // defined(OS_GENERIC)
+  const char *override_path = "/etc/bluetooth/override/bt_stack.conf";
   CHECK(path != NULL);
 
   LOG_INFO(LOG_TAG, "%s attempt to load stack conf from %s", __func__, path);
@@ -51,6 +53,13 @@ static future_t* init() {
   if (!config) {
     LOG_INFO(LOG_TAG, "%s file >%s< not found", __func__, path);
     config = config_new_empty();
+  }
+
+  FILE *fp = fopen(override_path, "rt");
+  if (fp) {
+    LOG_INFO(LOG_TAG, "%s override stack conf with %s", __func__, override_path);
+    config_parse(fp, config);
+    fclose(fp);
   }
 
   return future_new_immediate(FUTURE_SUCCESS);
