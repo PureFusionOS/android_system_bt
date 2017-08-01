@@ -143,9 +143,8 @@ extern void bta_hh_co_send_hid_info(btif_hh_device_t* p_dev,
                                     uint16_t product_id, uint16_t version,
                                     uint8_t ctry_code, int dscp_len,
                                     uint8_t* p_dscp);
-extern bool check_cod(const bt_bdaddr_t* remote_bdaddr, uint32_t cod);
-extern void btif_dm_cb_remove_bond(bt_bdaddr_t* bd_addr);
-extern bool check_cod_hid(const bt_bdaddr_t* remote_bdaddr);
+extern bool check_cod(const RawAddress* remote_bdaddr, uint32_t cod);
+extern bool check_cod_hid(const RawAddress* remote_bdaddr);
 extern int scru_ascii_2_hex(char* p_ascii, int len, uint8_t* p_hex);
 extern void btif_dm_hh_open_failed(bt_bdaddr_t* bdaddr);
 extern void btif_hd_service_registration();

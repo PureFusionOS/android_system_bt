@@ -391,7 +391,6 @@ typedef uint8_t tBTA_SIG_STRENGTH_MASK;
 #define BTA_DM_LE_FEATURES_READ                                             \
   27                             /* Cotroller specific LE features are read \
                                     */
-#define BTA_DM_ENER_INFO_READ 28 /* Energy info read */
 #define BTA_DM_BLE_SC_OOB_REQ_EVT 29 /* SMP SC OOB request event */
 typedef uint8_t tBTA_DM_SEC_EVT;
 
