@@ -1447,16 +1447,15 @@ void bta_ag_hsp_result(tBTA_AG_SCB *p_scb, tBTA_AG_API_RESULT *p_result)
                 (p_scb->features & BTA_AG_FEAT_NOSCO))
             {
                 bta_ag_send_ring(p_scb, (tBTA_AG_DATA *) p_result);
-            }
+            } else {
             /* else open sco, send ring after sco opened */
-            else
-            {
-                /* HSPv1.2: AG shall not send RING if using in-band ring tone. */
-                if (p_scb->hsp_version >= HSP_VERSION_1_2)
-                    p_scb->post_sco = BTA_AG_POST_SCO_NONE;
-                else
-                    p_scb->post_sco = BTA_AG_POST_SCO_RING;
 
+                /* HSPv1.2: AG shall not send RING if using in-band ring tone. */
+                if (p_scb->hsp_version >= HSP_VERSION_1_2) {
+                    p_scb->post_sco = BTA_AG_POST_SCO_NONE;
+              }  else {
+                    p_scb->post_sco = BTA_AG_POST_SCO_RING;
+              }
                 bta_ag_sco_open(p_scb, (tBTA_AG_DATA *) p_result);
             }
             break;
@@ -1469,18 +1468,17 @@ void bta_ag_hsp_result(tBTA_AG_SCB *p_scb, tBTA_AG_API_RESULT *p_result)
                 alarm_cancel(p_scb->ring_timer);
             }
 
-            if (!(p_scb->features & BTA_AG_FEAT_NOSCO))
-            {
-                /* if audio connected to this scb open sco */
-                if (p_result->data.audio_handle == bta_ag_scb_to_idx(p_scb))
-                {
-                    bta_ag_sco_open(p_scb, (tBTA_AG_DATA *) p_result);
-                }
-                /* else if no audio at call close sco */
-                else if (p_result->data.audio_handle == BTA_AG_HANDLE_NONE)
-                {
-                    bta_ag_sco_close(p_scb, (tBTA_AG_DATA *) p_result);
-                }
+            if (!(p_scb->features & BTA_AG_FEAT_NOSCO)) {
+              /* if audio connected to this scb AND sco is not opened, open sco */
+            if (p_result->data.audio_handle == bta_ag_scb_to_idx(p_scb) &&
+               !bta_ag_sco_is_open(p_scb)) {
+              bta_ag_sco_open(p_scb, (tBTA_AG_DATA*)p_result);
+            }
+        /* else if no audio at call close sco */
+            else if (p_result->data.audio_handle == BTA_AG_HANDLE_NONE &&
+                    bta_ag_sco_is_open(p_scb)) {
+             bta_ag_sco_close(p_scb, (tBTA_AG_DATA*)p_result);
+             }
             }
             break;
 
@@ -1582,10 +1580,8 @@ void bta_ag_hfp_result(tBTA_AG_SCB *p_scb, tBTA_AG_API_RESULT *p_result)
                     (p_scb->features & BTA_AG_FEAT_NOSCO))
                 {
                     bta_ag_send_ring(p_scb, (tBTA_AG_DATA *) p_result);
-                }
+                } else {
                 /* else open sco, send ring after sco opened */
-                else
-                {
                     p_scb->post_sco = BTA_AG_POST_SCO_RING;
                     bta_ag_sco_open(p_scb, (tBTA_AG_DATA *) p_result);
                 }
@@ -1600,13 +1596,12 @@ void bta_ag_hfp_result(tBTA_AG_SCB *p_scb, tBTA_AG_API_RESULT *p_result)
             */
             bta_ag_send_call_inds(p_scb, p_result->result);
 
-            if (!(p_scb->features & BTA_AG_FEAT_NOSCO))
-            {
-                if (p_result->data.audio_handle == bta_ag_scb_to_idx(p_scb))
-                {
-                    bta_ag_sco_open(p_scb, (tBTA_AG_DATA *) p_result);
+            if (!(p_scb->features & BTA_AG_FEAT_NOSCO)) {
+                if (p_result->data.audio_handle == bta_ag_scb_to_idx(p_scb)) &&
+                    !bta_ag_sco_is_open(p_scb)) {
+                  bta_ag_sco_open(p_scb, (tBTA_AG_DATA *) p_result);
                 }
-                else if ((p_result->data.audio_handle == BTA_AG_HANDLE_NONE) &&
+                  else if ((p_result->data.audio_handle == BTA_AG_HANDLE_NONE) &&
                         bta_ag_sco_is_open(p_scb))
                 {
                     bta_ag_sco_close(p_scb, (tBTA_AG_DATA *) p_result);
