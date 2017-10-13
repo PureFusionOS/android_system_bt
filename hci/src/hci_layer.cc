@@ -551,8 +551,6 @@ static bool filter_incoming_event(BT_HDR* packet) {
 
     wait_entry = get_waiting_command(opcode);
 
-    process_command_credits(credits);
-
     if (!wait_entry) {
       if (opcode != HCI_COMMAND_NONE) {
         LOG_WARN(LOG_TAG,
@@ -569,6 +567,8 @@ static bool filter_incoming_event(BT_HDR* packet) {
       }
     }
 
+    process_command_credits(credits);
+
     goto intercepted;
   } else if (event_code == HCI_COMMAND_STATUS_EVT) {
     uint8_t status;
@@ -579,8 +579,6 @@ static bool filter_incoming_event(BT_HDR* packet) {
     // If a command generates a command status event, it won't be getting a
     // command complete event
     wait_entry = get_waiting_command(opcode);
-
-    process_command_credits(credits);
 
     if (!wait_entry) {
       LOG_WARN(
@@ -593,6 +591,8 @@ static bool filter_incoming_event(BT_HDR* packet) {
         wait_entry->status_callback(status, wait_entry->command,
                                     wait_entry->context);
     }
+
+    process_command_credits(credits);
 
     goto intercepted;
   } else if (event_code == HCI_VSE_SUBCODE_DEBUG_INFO_SUB_EVT) {
