@@ -1469,13 +1469,11 @@ static void btif_dm_search_devices_evt(uint16_t event, char* p_param) {
        * but instead wait for the cancel_cmpl_evt via the Busy Level
        *
        */
-      if (btif_dm_inquiry_in_progress == false) {
-        btgatt_filt_param_setup_t adv_filt_param;
-        memset(&adv_filt_param, 0, sizeof(btgatt_filt_param_setup_t));
-        do_in_bta_thread(
-            FROM_HERE,
-            base::Bind(&BTM_BleAdvFilterParamSetup, BTM_BLE_SCAN_COND_DELETE, 0,
-                       nullptr, base::Bind(&bte_scan_filt_param_cfg_evt, 0)));
+      do_in_bta_thread(
+          FROM_HERE,
+          base::Bind(&BTM_BleAdvFilterParamSetup, BTM_BLE_SCAN_COND_DELETE, 0,
+                     nullptr, base::Bind(&bte_scan_filt_param_cfg_evt, 0)));
+      if (!btif_dm_inquiry_in_progress) {
         HAL_CBACK(bt_hal_cbacks, discovery_state_changed_cb,
                   BT_DISCOVERY_STOPPED);
       }
