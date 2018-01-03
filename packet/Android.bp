@@ -1,0 +1,29 @@
+cc_library_static {
+    name: "lib-bt-packets",
+    host_supported: true,
+    export_include_dirs: [
+        "./include",
+        "./",
+    ],
+    whole_static_libs: [
+        "lib-bt-packets-base",
+    ],
+}
+
+cc_test {
+    name: "net_test_btpackets",
+    defaults: ["fluoride_defaults"],
+    host_supported: true,
+    include_dirs: [ "system/bt" ],
+    local_include_dirs: ["tests"],
+    srcs: [
+        "tests/base/packet_test.cc",
+        "tests/base/iterator_test.cc",
+        "tests/base/packet_builder_test.cc",
+    ],
+    static_libs: [
+        "libgmock",
+        "lib-bt-packets",
+    ],
+    cflags: ["-DBUILDCFG","-g"],
+}

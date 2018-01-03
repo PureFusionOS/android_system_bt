@@ -1,0 +1,19 @@
+cc_library_static {
+    name: "lib-bt-packets-base",
+    include_dirs: [ "system/bt"],
+    export_include_dirs: ["./"],
+    host_supported: true,
+    srcs: [
+        "packet.cc",
+        "iterator.cc",
+        "packet_builder.cc",
+    ],
+    shared_libs: [
+        "libchrome",
+    ],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+}
