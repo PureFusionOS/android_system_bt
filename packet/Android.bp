@@ -24,6 +24,7 @@ cc_test {
         "tests/avrcp/avrcp_packet_test.cc",
         "tests/avrcp/vendor_packet_test.cc",
         "tests/avrcp/get_capabilities_packet_test.cc",
+        "tests/avrcp/get_element_attributes_packet_test.cc",
     ],
     static_libs: [
         "libgmock",

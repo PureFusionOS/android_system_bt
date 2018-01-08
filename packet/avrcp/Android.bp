@@ -7,6 +7,7 @@ cc_library_static {
         "avrcp_packet.cc",
         "vendor_packet.cc",
         "capabilities_packet.cc",
+        "get_element_attributes_packet.cc",
     ],
     shared_libs: [
         "libchrome",
