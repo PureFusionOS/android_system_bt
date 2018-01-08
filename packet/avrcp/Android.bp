@@ -6,6 +6,7 @@ cc_library_static {
     srcs: [
         "avrcp_packet.cc",
         "vendor_packet.cc",
+        "capabilities_packet.cc",
     ],
     shared_libs: [
         "libchrome",
