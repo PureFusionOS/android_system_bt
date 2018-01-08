@@ -22,6 +22,7 @@ cc_test {
         "tests/base/iterator_test.cc",
         "tests/base/packet_builder_test.cc",
         "tests/avrcp/avrcp_packet_test.cc",
+        "tests/avrcp/vendor_packet_test.cc",
     ],
     static_libs: [
         "libgmock",

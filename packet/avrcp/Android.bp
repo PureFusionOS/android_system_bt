@@ -5,6 +5,7 @@ cc_library_static {
     host_supported: true,
     srcs: [
         "avrcp_packet.cc",
+        "vendor_packet.cc",
     ],
     shared_libs: [
         "libchrome",
