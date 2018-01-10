@@ -171,7 +171,11 @@ static void bta_pan_data_flow_cb(uint16_t handle, tPAN_RESULT result) {
 static void bta_pan_data_buf_ind_cback(uint16_t handle, BD_ADDR src,
                                        BD_ADDR dst, uint16_t protocol,
                                        BT_HDR* p_buf, bool ext, bool forward) {
-  tBTA_PAN_SCB* p_scb;
+  tBTA_PAN_SCB* p_scb = bta_pan_scb_by_handle(handle);
+  if (p_scb == NULL) {
+    return;
+  }
+
   BT_HDR* p_new_buf;
 
   if (sizeof(tBTA_PAN_DATA_PARAMS) > p_buf->offset) {
@@ -199,12 +203,6 @@ static void bta_pan_data_buf_ind_cback(uint16_t handle, BD_ADDR src,
   ((tBTA_PAN_DATA_PARAMS*)p_new_buf)->protocol = protocol;
   ((tBTA_PAN_DATA_PARAMS*)p_new_buf)->ext = ext;
   ((tBTA_PAN_DATA_PARAMS*)p_new_buf)->forward = forward;
-
-  p_scb = bta_pan_scb_by_handle(handle);
-  if (p_scb == NULL) {
-    osi_free(p_new_buf);
-    return;
-  }
 
   fixed_queue_enqueue(p_scb->data_queue, p_new_buf);
   BT_HDR* p_event = (BT_HDR*)osi_malloc(sizeof(BT_HDR));
