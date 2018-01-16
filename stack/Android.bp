@@ -168,6 +168,9 @@ cc_library_static {
         "srvc/srvc_dis.cc",
         "srvc/srvc_eng.cc",
     ],
+    cflags: [
+        "-Wno-tautological-unsigned-zero-compare",
+    ],
     static_libs: [
         "libbt-hci",
         "libFraunhoferAAC",

@@ -24,7 +24,10 @@ cc_defaults {
     shared_libs: [
         "libcutils",
     ],
-    cflags: ["-DBUILDCFG"],
+    cflags: [
+        "-DBUILDCFG",
+        "-Wno-tautological-type-limit-compare",
+    ],
 }
 
 // BTA static library for target
